@@ -112,6 +112,15 @@ void	CCGuidance::EDROOM_CTX_Top_0::FInitGuidance()
    //Define absolute time
   Pr_Time time;
 	 
+	//Timing Service useful methods
+
+	 
+time.GetTime(); // Get current monotonic time
+	
+	time+=Pr_Time(0,100000); // Add X sec + Y microsec
+	
+	VNextTimeout=time;
+	 
  
  
    //Program absolute timer 
@@ -217,6 +226,8 @@ void CCGuidance::EDROOM_SUB_Top_0::EDROOMBehaviour()
 				break;
 			//Next Transition is Init
 			case (Init):
+				//Execute Action 
+				FInitGuidance();
 				//Next State is Ready
 				edroomNextState = Ready;
 				break;
