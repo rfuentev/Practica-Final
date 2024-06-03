@@ -20,6 +20,7 @@ CCExplorerManager::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(CCExplorerManager &act,
 	EDROOMcomponent(act),
 	Msg(EDROOMcomponent.Msg),
 	MsgBack(EDROOMcomponent.MsgBack),
+	Guidance(EDROOMcomponent.Guidance),
 	BKGExecCtrl(EDROOMcomponent.BKGExecCtrl),
 	HK_FDIRCtrl(EDROOMcomponent.HK_FDIRCtrl),
 	TMChannelCtrl(EDROOMcomponent.TMChannelCtrl),
@@ -38,6 +39,7 @@ CCExplorerManager::EDROOM_CTX_Top_0::EDROOM_CTX_Top_0(EDROOM_CTX_Top_0 &context)
 	EDROOMcomponent(context.EDROOMcomponent),
 	Msg(context.Msg),
 	MsgBack(context.MsgBack),
+	Guidance(context.Guidance),
 	BKGExecCtrl(context.BKGExecCtrl),
 	HK_FDIRCtrl(context.HK_FDIRCtrl),
 	TMChannelCtrl(context.TMChannelCtrl),
@@ -78,12 +80,36 @@ bool CCExplorerManager::EDROOM_CTX_Top_0::EDROOMSearchContextTrans(
 
 	// User-defined Functions   ****************************
 
+void	CCExplorerManager::EDROOM_CTX_Top_0::F()
+
+{
+
+
+}
+
+
+
 void	CCExplorerManager::EDROOM_CTX_Top_0::FExecPrioTC()
 
 {
 
  PUSPrioTCExecutor::ExecTC(VCurrentTC,VCurrentTMList,VCurrentEvList);
 
+}
+
+
+
+void	CCExplorerManager::EDROOM_CTX_Top_0::FFwdGuidanceTC()
+
+{
+   //Allocate data from pool
+  CDTCHandler * pSGuidance_Data = EDROOMPoolCDTCHandler.AllocData();
+	
+		// Complete Data 
+	
+	*pSGuidance_Data=VCurrentTC;
+   //Send message 
+   Guidance.send(SGuidance,pSGuidance_Data,&EDROOMPoolCDTCHandler); 
 }
 
 
@@ -215,11 +241,30 @@ PUSService128::MngReboot();
 
 
 
+bool	CCExplorerManager::EDROOM_CTX_Top_0::G()
+
+{
+
+
+}
+
+
+
 bool	CCExplorerManager::EDROOM_CTX_Top_0::GAcceptTC()
 
 {
 
 return VCurrentTC.IsAccepted();
+
+}
+
+
+
+bool	CCExplorerManager::EDROOM_CTX_Top_0::GFwdGuidanceTC()
+
+{
+
+return VCurrentTC.IsGuidanceTC();
 
 }
 
@@ -424,6 +469,19 @@ void CCExplorerManager::EDROOM_SUB_Top_0::EDROOMBehaviour()
 					//Branch taken is HandleTC_FwdToBKGTCExec
 					edroomCurrentTrans.localId =
 						HandleTC_FwdToBKGTCExec;
+
+					//Next State is Ready
+					edroomNextState = Ready;
+				 } 
+				//Evaluate Branch FwdGuidanceTC
+				else if( GFwdGuidanceTC() )
+				{
+					//Send Asynchronous Message 
+					FFwdGuidanceTC();
+
+					//Branch taken is HandleTC_FwdGuidanceTC
+					edroomCurrentTrans.localId =
+						HandleTC_FwdGuidanceTC;
 
 					//Next State is Ready
 					edroomNextState = Ready;
