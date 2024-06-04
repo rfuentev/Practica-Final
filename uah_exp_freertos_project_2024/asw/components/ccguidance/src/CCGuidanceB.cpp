@@ -86,6 +86,7 @@ void	CCGuidance::EDROOM_CTX_Top_0::FInitGuidance()
 {
    //Define absolute time
   Pr_Time time;
+
 	 
 	
 time.GetTime(); // Get current monotonic time
@@ -197,6 +198,8 @@ void CCGuidance::EDROOM_SUB_Top_0::EDROOMBehaviour()
 			case (DoGuidance):
 				//Execute Action 
 				FGuidanceControl();
+				//Invoke Synchronous Message 
+				FInvokeTxTMList();
 				//Next State is Ready
 				edroomNextState = Ready;
 				break;
