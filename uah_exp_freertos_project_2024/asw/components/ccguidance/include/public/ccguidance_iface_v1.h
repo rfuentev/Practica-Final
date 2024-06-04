@@ -275,11 +275,6 @@ public:
 
 		/**
 		 * \brief  
-		 */
-		void	FGuidanceControl();
-
-		/**
-		 * \brief  
 		 * 	Se inicializa el timer. Ejecutara el Guidance cada 100ms
 		 */
 		void	FInitGuidance();
@@ -288,6 +283,11 @@ public:
 		 * \brief  
 		 */
 		void	FInvokeTxTMList();
+
+		/**
+		 * \brief 
+		 */
+		void	FGuidanceControl();
 
 	};
 

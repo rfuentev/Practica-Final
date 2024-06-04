@@ -81,36 +81,13 @@ PUS_GuidanceTCExecutor::ExecTC(varSGuidance,VCurrentTMList,TCExecEventList);
 
 
 
-void	CCGuidance::EDROOM_CTX_Top_0::FGuidanceControl()
-
-{
-   //Define absolute time
-  Pr_Time time;
-	 
-	//Timing Service useful methods
-	 
-	//time.GetTime(); // Get current monotonic time
-	//time.Add(X,Y); // Add X sec + Y microsec
-	 
-	//Timing Service useful methods
-	 
-
-//time.Add(X,Y); // Add X sec + Y microsec
-time.GetTime(); // Get current monotonic time
-VNextTimeout+=Pr_time(0,100000);
-time=VNextTimeout;
-PUSService129::GuidanceControl(); //Inicialise PUSService 129
-   //Program absolute timer 
-   GuidanceTimer.InformAt( time ); 
-}
-
-
-
 void	CCGuidance::EDROOM_CTX_Top_0::FInitGuidance()
 
 {
    //Define absolute time
   Pr_Time time;
+	 
+	
 time.GetTime(); // Get current monotonic time
 	
 time+=Pr_Time(0,100000); // Add 0 sec + 100000 microsec
@@ -134,6 +111,24 @@ void	CCGuidance::EDROOM_CTX_Top_0::FInvokeTxTMList()
 VCurrentTMList.Clear();
    //Invoke synchronous communication 
    MsgBack=TMChannelCtrl.invoke(STxTM,pSTxTM_Data,&EDROOMPoolCDTMList); 
+}
+
+
+
+void	CCGuidance::EDROOM_CTX_Top_0::FGuidanceControl()
+
+{
+   //Define absolute time
+  Pr_Time time;
+	 
+	//Timing Service useful methods
+	 
+time.GetTime(); // Get current monotonic time
+time+=Pr_Time(0,100000); // Add X sec + Y microsec
+VNextTimeout=time;
+PUSService129::GuidanceControl();
+   //Program absolute timer 
+   GuidanceTimer.InformAt( time ); 
 }
 
 
@@ -202,8 +197,6 @@ void CCGuidance::EDROOM_SUB_Top_0::EDROOMBehaviour()
 			case (DoGuidance):
 				//Execute Action 
 				FGuidanceControl();
-				//Invoke Synchronous Message 
-				FInvokeTxTMList();
 				//Next State is Ready
 				edroomNextState = Ready;
 				break;
