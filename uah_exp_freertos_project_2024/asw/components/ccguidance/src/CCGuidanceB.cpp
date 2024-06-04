@@ -89,6 +89,11 @@ void	CCGuidance::EDROOM_CTX_Top_0::FGuidanceControl()
 	 
 	//Timing Service useful methods
 	 
+	//time.GetTime(); // Get current monotonic time
+	//time.Add(X,Y); // Add X sec + Y microsec
+	 
+	//Timing Service useful methods
+	 
 
 //time.Add(X,Y); // Add X sec + Y microsec
 time.GetTime(); // Get current monotonic time
