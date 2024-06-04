@@ -302,7 +302,7 @@ public:
 			HandleTC_ToReboot,
 			HandleTC_FwdHK_FDIRTC,
 			HandleTC_FwdToBKGTCExec,
-			HandleTC_FwdGuidanceTC,
+			HandleTC_FFwdGuidanceTC,
 			HandleTC_ExecPrioTC,
 			NewEvAction,
 			EDROOMMemoryTrans };
@@ -370,11 +370,6 @@ public:
 		/**
 		 * \brief  
 		 */
-		void	F();
-
-		/**
-		 * \brief  
-		 */
 		void	FExecPrioTC();
 
 		/**
@@ -426,11 +421,6 @@ public:
 		 * \brief  
 		 */
 		void	FReboot();
-
-		/**
-		 * \brief  
-		 */
-		bool	G();
 
 		/**
 		 * \brief  

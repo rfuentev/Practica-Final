@@ -90,6 +90,21 @@ void	CCExplorerManager::EDROOM_CTX_Top_0::FExecPrioTC()
 
 
 
+void	CCExplorerManager::EDROOM_CTX_Top_0::FFwdGuidanceTC()
+
+{
+   //Allocate data from pool
+  CDTCHandler * pSGuidance_Data = EDROOMPoolCDTCHandler.AllocData();
+	
+		// Complete Data 
+	
+	*pSGuidance_Data=VCurrentTC;
+   //Send message 
+   Guidance.send(SGuidance,pSGuidance_Data,&EDROOMPoolCDTCHandler); 
+}
+
+
+
 void	CCExplorerManager::EDROOM_CTX_Top_0::FFwdHK_FDIRTC()
 
 {
@@ -222,6 +237,16 @@ bool	CCExplorerManager::EDROOM_CTX_Top_0::GAcceptTC()
 {
 
 return VCurrentTC.IsAccepted();
+
+}
+
+
+
+bool	CCExplorerManager::EDROOM_CTX_Top_0::GFwdGuidanceTC()
+
+{
+
+return VCurrentTC.IsGuidanceTC();
 
 }
 
@@ -426,6 +451,19 @@ void CCExplorerManager::EDROOM_SUB_Top_0::EDROOMBehaviour()
 					//Branch taken is HandleTC_FwdToBKGTCExec
 					edroomCurrentTrans.localId =
 						HandleTC_FwdToBKGTCExec;
+
+					//Next State is Ready
+					edroomNextState = Ready;
+				 } 
+				//Evaluate Branch FFwdGuidanceTC
+				else if( GFwdGuidanceTC() )
+				{
+					//Send Asynchronous Message 
+					FFwdGuidanceTC();
+
+					//Branch taken is HandleTC_FFwdGuidanceTC
+					edroomCurrentTrans.localId =
+						HandleTC_FFwdGuidanceTC;
 
 					//Next State is Ready
 					edroomNextState = Ready;
@@ -635,3 +673,6 @@ TEDROOMTransId CCExplorerManager::EDROOM_SUB_Top_0::EDROOMRebootArrival()
 	return(edroomCurrentTrans);
 
 }
+
+
+

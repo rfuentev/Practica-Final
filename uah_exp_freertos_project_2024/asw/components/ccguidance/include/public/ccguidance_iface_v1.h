@@ -213,15 +213,15 @@ public:
 
 		//!Transition Identifiers
 		enum TEDROOMTransitionID{DoGuidance,
-			ExecTC,
 			Init,
+			ExecTC,
 			EDROOMMemoryTrans };
 
 
 
 		//!Variables
 		CDTMList &VCurrentTMList;
-		Pr_Time &VNextTimeout;
+		Pr_Time *VNextTimeout;
 
 
 		// Pools *************************************************
@@ -237,7 +237,7 @@ public:
 		//!Constructor
 		EDROOM_CTX_Top_0 (CCGuidance &act,
 				CDTMList & EDROOMpVarVCurrentTMList,
-				Pr_Time & EDROOMpVarVNextTimeout,
+				Pr_Time * EDROOMpVarVNextTimeout,
 				CEDROOMPOOLCDTMList & EDROOMpPoolCDTMList );
 
 		//!Copy constructor
@@ -279,7 +279,8 @@ public:
 		void	FGuidanceControl();
 
 		/**
-		 * \brief Inicializamos el timer que va a ejecutar el guidance cada 100ms
+		 * \brief  
+		 * 	Se inicializa el timer. Ejecutara el Guidance cada 100ms
 		 */
 		void	FInitGuidance();
 
@@ -312,7 +313,7 @@ public:
 
 		//!Variables
 		CDTMList VCurrentTMList;
-		Pr_Time VNextTimeout;
+		Pr_Time VNextTimeout[1];
 
 
 		// Pools**************************************************
