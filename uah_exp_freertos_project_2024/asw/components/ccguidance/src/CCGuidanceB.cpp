@@ -89,9 +89,9 @@ void	CCGuidance::EDROOM_CTX_Top_0::FGuidanceControl()
 	 
 	//Timing Service useful methods
 	 
-//time.GetTime(); // Get current monotonic time
+
 //time.Add(X,Y); // Add X sec + Y microsec
- 
+time.GetTime(); // Get current monotonic time
 VNextTimeout+=Pr_time(0,100000);
 time=VNextTimeout;
 PUSService129::GuidanceControl(); //Inicialise PUSService 129
@@ -197,6 +197,8 @@ void CCGuidance::EDROOM_SUB_Top_0::EDROOMBehaviour()
 			case (DoGuidance):
 				//Execute Action 
 				FGuidanceControl();
+				//Invoke Synchronous Message 
+				FInvokeTxTMList();
 				//Next State is Ready
 				edroomNextState = Ready;
 				break;
